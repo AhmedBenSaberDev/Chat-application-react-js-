@@ -1,0 +1,66 @@
+.title{
+    font-weight: 400;
+}
+.labels, .title , .signin-other-title, .have-account{
+    color:var(--faded-black)
+}
+.labels{
+    font-weight: 700 !important;
+}
+.form-input{
+    background-color: #fafafa !important;
+}
+.form-input::placeholder{
+    font-weight: 300;
+    color: var(--secondary-black) !important;
+}
+.form-input:focus{
+    box-shadow: none !important;
+    border-color: var(--primary-green) !important;
+}
+.header-span{
+    font-weight: 500;
+    color:var(--secondary-black);
+}
+.submit-btn{
+    border: none !important;
+    background-color: var(--secondary-green) !important;
+}
+.submit-btn:hover{
+    background-color: var(--primary-green) !important;
+}
+.submit-btn:focus{
+    box-shadow: none !important;
+    border-color: var(--primary-green) !important;
+}
+.signin-other-title-wrapper{
+    color: var(--faded-black);
+    position: relative;
+}
+.fb-icon{
+    cursor: pointer;
+    font-size: 50px;
+    color:rgb(66 103 178);
+    transition: all 0.2s;
+    margin-right: 30px;
+}
+.google-icon{
+    cursor: pointer;
+    font-size: 58px;
+    color:rgb(219 68 55);
+    transition: all 0.2s;
+}
+.fb-icon:hover, .google-icon:hover{
+    transform: scale(1.1);
+}
+.link{
+    color: var(--secondary-green);
+    text-decoration: none;
+}
+.link:hover{
+    color: var(--primary-green);
+}
+.have-account{
+    font-weight: 500;
+    color: var(--secondary-black);
+}

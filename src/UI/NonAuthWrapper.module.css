@@ -1,0 +1,11 @@
+.container{
+    min-height: 100vh;
+    background-color: var(--primary-green);
+}
+.wrapper{
+    min-height: 85%;
+    min-width: 55%;
+    border-radius: 10px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
