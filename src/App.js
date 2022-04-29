@@ -9,6 +9,9 @@ import { UserContextProvider } from './store/User-context';
 
 import { AnimatePresence } from "framer-motion";
 
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import './Variables/variables.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
@@ -20,6 +23,7 @@ function App() {
   return (
     
     <UserContextProvider>
+      <ToastContainer></ToastContainer>
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.pathname}>
           <Route path="/login" element={<Login/>} ></Route>

@@ -7,6 +7,8 @@ import { Form , Button, Row, Col} from "react-bootstrap";
 import { BsFacebook} from 'react-icons/bs'
 import {AiFillGoogleCircle} from 'react-icons/ai'
 
+import { GoogleLogin } from 'react-google-login';
+
 import {motion} from 'framer-motion';
 
 import { useFormik } from "formik";
@@ -20,6 +22,8 @@ import NonAuthWrapper from "../../UI/NonAuthWrapper";
 import Spinner from "../../UI/Spinner";
 
 import axios from '../../axios';
+
+import { toast } from 'react-toastify';
 
 
 const Login = () => {
@@ -41,11 +45,33 @@ const Login = () => {
         } catch (error) {
             if(error.response.status == 401 ){
                 setCredentialIsInValid(true);
+                return
             }
-            console.log(error);
+            toast.error("An error occured, please try again later !", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
         }
 
         setLoading(false);
+    }
+
+    const googleSuccess = async (res) => {
+        try {
+            const response = await axios.post('user/google_auth',{tokenId:res.tokenId});
+            const encryptStorage = new EncryptStorage('secret-key');
+            encryptStorage.setItem('userInfo',response.data);
+            navigate('/dashboard');
+        } catch (error) {
+            toast.error("An error occured, please try again later !", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
+        }
+    }
+
+    const googleFailure = (error) => {
+        toast.error("An error occured, please try again later !", {
+            position: toast.POSITION.BOTTOM_LEFT
+        });
     }
 
     const formik = useFormik({
@@ -98,7 +124,18 @@ const Login = () => {
                         <Row>
                             <Col className="d-flex justify-content-center align-items-center mt-2">
                                 <BsFacebook  className={classes['fb-icon']}></BsFacebook>
-                                <AiFillGoogleCircle className={classes['google-icon']}></AiFillGoogleCircle>
+                                <GoogleLogin
+                                    clientId="1077820606296-0i5ilte4umvnv8pc1nev0olj7j7367u1.apps.googleusercontent.com"
+                                    render={(renderprops)=>(
+                                        
+                                        <Button disabled={renderprops.disabled} onClick={renderprops.onClick} variant='contained'> <AiFillGoogleCircle className={classes['google-icon']}></AiFillGoogleCircle></Button> 
+                                    )}
+                                    onSuccess={googleSuccess}
+                                    onFailure={googleFailure}
+                                    cookiePolicy="single_host_origin"
+                                >
+                                    
+                                </GoogleLogin>
                             </Col>
                         </Row>
                     </Col>

@@ -17,10 +17,14 @@ import * as Yup  from "yup";
 
 import axios from '../../axios';
 
+import { EncryptStorage } from 'encrypt-storage';
+
 import classes from  './auth.module.css';
 
 import NonAuthWrapper from "../../UI/NonAuthWrapper";
 import Spinner from "../../UI/Spinner";
+
+import { toast } from 'react-toastify';
 
 
 const SignUp = () => {
@@ -64,13 +68,18 @@ const SignUp = () => {
         setEmailExistsErrors(false);
 
         try {   
-            const response = await axios.post('user/signup',data);
-            // navigate('/login');
+            await axios.post('user/signup',data);
+            navigate('/login');
+            toast.success("Account created successfuly !", {
+                position: toast.POSITION.BOTTOM_LEFT
+              });
         } catch (error) {
-            console.log(error.response);
             if(error.response.status == 400){
                 setEmailExistsErrors(true);
             };
+            toast.error("An error occured, please try again later !", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
         }
 
         setLoading(false);
@@ -108,16 +117,22 @@ const SignUp = () => {
     });
 
     const googleSuccess = async (res) => {
-        const {imageUrl , email, givenName } = res?.profileObj;
-        const data = {
-            userName:givenName,
-            email,
-            image:imageUrl
-        };
+        try {
+            const response = await axios.post('user/google_auth',{tokenId:res.tokenId});
+            const encryptStorage = new EncryptStorage('secret-key');
+            encryptStorage.setItem('userInfo',response.data);
+            navigate('/dashboard');
+        } catch (error) {
+            toast.error("An error occured, please try again later !", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
+        }
     }
 
     const googleFailure = (error) => {
-        console.log(error);
+        toast.error("An error occured, please try again later !", {
+            position: toast.POSITION.BOTTOM_LEFT
+        });
     }
 
     return(
