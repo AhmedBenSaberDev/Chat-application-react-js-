@@ -2,7 +2,10 @@ import React from "react";
 import { Route,Routes,useLocation } from "react-router-dom";
 
 import Login from "./pages/Authentification/login";
-import SignIn from './pages/Authentification/SingIn';
+import SignUp from './pages/Authentification/Singup';
+import Dashboard from "./pages/dashboard/dahsboard";
+
+import { UserContextProvider } from './store/User-context';
 
 import { AnimatePresence } from "framer-motion";
 
@@ -15,12 +18,16 @@ function App() {
   const location = useLocation();
   
   return (
-    <AnimatePresence exitBeforeEnter>
-      <Routes location={location} key={location.pathname}>
-        <Route path="/login" element={<Login/>} ></Route>
-        <Route path="/register" element={<SignIn/>}></Route>
-      </Routes>
-    </AnimatePresence>
+    
+    <UserContextProvider>
+      <AnimatePresence exitBeforeEnter>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/login" element={<Login/>} ></Route>
+          <Route path="/register" element={<SignUp/>}></Route>
+          <Route path="/dashboard" element={<Dashboard/>}></Route>
+        </Routes>
+      </AnimatePresence>
+    </UserContextProvider>
   )
 }
 
