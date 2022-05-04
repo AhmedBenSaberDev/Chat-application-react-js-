@@ -1,0 +1,56 @@
+.wrapper{
+    background-color: #2e2e2e;
+    min-height: 100vh;
+    padding: 0 !important;
+}
+.icons{
+    position: relative;
+    font-size: 28px;
+    color: #878a92;
+    cursor: pointer;
+}
+.active{
+    color: var(--primary-green) !important;
+}
+.tooltip{
+    margin-left: 5px !important;
+}
+.parameters-btn{
+    background-color: transparent !important;
+    border: none !important;
+}
+.parameters-btn:focus{
+    box-shadow: none !important;
+}
+.popover{
+    background-color: #333 !important;
+    border-color:#383838 !important;
+    border-radius: 3px;
+    margin-left: 5px;
+    box-shadow: 0 5px 6px rgb(38, 38 ,38,0,1);
+    padding: 8px 0;
+    width: 170px !important;
+}
+.tooltip.top .tooltip-arrow {
+    border-top-color: transparent !important;
+}
+.popover-item{
+    width: 100%;
+    color: #8f9198 ;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 4px 0px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+.popover-item:hover{
+    cursor: pointer;
+    background-color: rgba(56, 56, 56,1);
+}
+.popover-icons{
+    font-size: 15px;
+}

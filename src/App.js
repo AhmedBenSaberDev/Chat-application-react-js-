@@ -1,5 +1,5 @@
 import React from "react";
-import { Route,Routes,useLocation } from "react-router-dom";
+import { Route,Routes,useLocation , Navigate } from "react-router-dom";
 
 import Login from "./pages/Authentification/login";
 import SignUp from './pages/Authentification/Singup';
@@ -29,6 +29,7 @@ function App() {
           <Route path="/login" element={<Login/>} ></Route>
           <Route path="/register" element={<SignUp/>}></Route>
           <Route path="/dashboard" element={<Dashboard/>}></Route>
+          <Route path="/*" element={<Navigate to="/login" />} />
         </Routes>
       </AnimatePresence>
     </UserContextProvider>

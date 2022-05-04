@@ -5,7 +5,7 @@ import { useNavigate , useLocation } from "react-router-dom";
 import { EncryptStorage } from 'encrypt-storage';
 
 const UserContext = createContext({
-    user:null
+    user:null,
 });
 
 const encryptStorage = new EncryptStorage('secret-key');
@@ -23,9 +23,7 @@ const UserContextProvider = (props) => {
         if(userInfo){
             navigate('/dashboard');
         };
-        console.log(userInfo);
     },[location]);
-
 
 
     return (

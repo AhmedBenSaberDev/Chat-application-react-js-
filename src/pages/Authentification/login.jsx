@@ -48,7 +48,7 @@ const Login = () => {
                 return
             }
             toast.error("An error occured, please try again later !", {
-                position: toast.POSITION.BOTTOM_LEFT
+                position: toast.POSITION.BOTTOM_RIGHT
             });
         }
 
@@ -63,14 +63,14 @@ const Login = () => {
             navigate('/dashboard');
         } catch (error) {
             toast.error("An error occured, please try again later !", {
-                position: toast.POSITION.BOTTOM_LEFT
+                position: toast.POSITION.BOTTOM_RIGHT
             });
         }
     }
 
     const googleFailure = (error) => {
         toast.error("An error occured, please try again later !", {
-            position: toast.POSITION.BOTTOM_LEFT
+            position: toast.POSITION.BOTTOM_RIGHT
         });
     }
 

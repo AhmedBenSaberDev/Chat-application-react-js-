@@ -71,14 +71,14 @@ const SignUp = () => {
             await axios.post('user/signup',data);
             navigate('/login');
             toast.success("Account created successfuly !", {
-                position: toast.POSITION.BOTTOM_LEFT
+                position: toast.POSITION.BOTTOM_RIGHT
               });
         } catch (error) {
             if(error.response.status == 400){
                 setEmailExistsErrors(true);
             };
             toast.error("An error occured, please try again later !", {
-                position: toast.POSITION.BOTTOM_LEFT
+                position: toast.POSITION.BOTTOM_RIGHT
             });
         }
 
@@ -124,14 +124,14 @@ const SignUp = () => {
             navigate('/dashboard');
         } catch (error) {
             toast.error("An error occured, please try again later !", {
-                position: toast.POSITION.BOTTOM_LEFT
+                position: toast.POSITION.BOTTOM_RIGHT
             });
         }
     }
 
     const googleFailure = (error) => {
         toast.error("An error occured, please try again later !", {
-            position: toast.POSITION.BOTTOM_LEFT
+            position: toast.POSITION.BOTTOM_RIGHT
         });
     }
 

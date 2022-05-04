@@ -1,0 +1,15 @@
+.conversation-container{
+    position:relative;
+    height: 100vh;
+}
+.wrapper{
+    background: url('../../assets//images//background/pattern-05.png');
+    background-color: var(--bg-body);
+    color: #8f9198;
+}
+.test{
+    padding: 0 20px;
+    padding-top: calc(12vh + 30px);
+    height: 90vh;
+    
+}

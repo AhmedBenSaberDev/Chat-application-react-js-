@@ -9,3 +9,7 @@ body{
   background-color: var(--primary-green);
   overflow-x: hidden;
 }
+
+.popover-arrow{
+  display:none !important
+}
