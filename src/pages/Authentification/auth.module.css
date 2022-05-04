@@ -1,3 +1,18 @@
+.image-preview-group{
+    text-align: center;
+    position: relative;
+}
+.image-preview{
+    width: 150px;
+    object-fit: contain !important;
+    cursor: pointer;
+}
+.image-icon{
+    position:absolute;
+    top: 12px;
+    font-size: 25px;
+    color: var(--primary-green);
+}
 .title{
     font-weight: 400;
 }
@@ -63,4 +78,9 @@
 .have-account{
     font-weight: 500;
     color: var(--secondary-black);
+}
+.error-message{
+    font-weight: 300;
+    display:block;
+    padding: 2px 0;
 }

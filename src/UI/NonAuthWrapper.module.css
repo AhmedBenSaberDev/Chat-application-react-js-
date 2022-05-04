@@ -3,7 +3,6 @@
     background-color: var(--primary-green);
 }
 .wrapper{
-    min-height: 85%;
     min-width: 55%;
     border-radius: 10px;
     background-color: #fafafa;

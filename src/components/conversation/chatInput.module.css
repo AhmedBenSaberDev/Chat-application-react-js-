@@ -1,0 +1,40 @@
+.wrapper{
+    padding: 15px 20px;
+    background-color: #2b2b2b !important;
+    border-top: 1px solid #333;
+    backdrop-filter: blur(7px);
+    z-index: 10;
+    height: 10vh;
+}
+.icons{
+    color: #adb5bd;
+    font-size: 22px;
+    cursor: pointer;
+}
+.text-input{
+    width: 100%;
+    background-color: #2e2e2e;
+    border-radius: 4px;
+    border:none;
+    padding:8px 12px;
+    width: 100%;
+    color: #8f9198;
+}
+
+.text-input:focus{
+    border: none;
+    outline: none;
+}
+.send-btn{
+    background-color: var(--primary-green) !important;
+    border: none !important;
+}
+.send-btn:hover{
+    background-color: var(--secondary-green) !important;
+}
+.send-btn:focus{
+    border: none !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}

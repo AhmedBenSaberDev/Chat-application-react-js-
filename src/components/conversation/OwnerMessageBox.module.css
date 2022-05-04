@@ -1,0 +1,22 @@
+.wrapper{
+    margin-bottom: 20px;
+    width: fit-content;
+    max-width: 50%;
+    float: right;
+    clear: both;
+}
+.message-wrapper{
+    color: #FFFFFFCC;
+    padding: 6px 15px;
+    background-color: rgba(78,172,109,0.3);
+    border-radius: 4px;
+    word-break: break-word;
+}
+.date{
+    font-size: 13px;
+    float: right;
+}
+.checkicon{
+    font-size: 18px;
+    color: var(--primary-green);
+}
