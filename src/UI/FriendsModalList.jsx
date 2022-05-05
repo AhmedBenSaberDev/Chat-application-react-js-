@@ -22,7 +22,7 @@ function FriendsModalList(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            { props.friendsList ? props.friendsList.map(user =>  <div key={user._id} ><ChatRoomItem conversation={true}  key={user._id} user={user}/> <hr style={{width:"100%",margin:"5px auto",color:'var(--primary-green)'}}></hr> </div>) : "No friends yet"}
+            { props.friendsList ? props.friendsList.map(user =>  <div key={user._id} ><ChatRoomItem addConversation={true}  key={user._id} user={user}/> <hr style={{width:"100%",margin:"5px auto",color:'var(--primary-green)'}}></hr> </div>) : "No friends yet"}
         </Modal.Body>
         <Modal.Footer>
           <Button className="modal-close-btn" onClick={props.onHide}>Close</Button>

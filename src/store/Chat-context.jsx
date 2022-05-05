@@ -16,7 +16,7 @@ const ChatContextProvider = (props) => {
     const userCtx = useContext(UserContext);
 
     const [conversations,setConversations] = useState();
-    
+    const [currentChat,setCurrentChat] = useState();
 
     useEffect(()=>{
 
@@ -32,10 +32,13 @@ const ChatContextProvider = (props) => {
        }
        fetchConversations();
     },[]);
+
     
     return(
         <ChatContext.Provider value={{
-            conversations
+            conversations,
+            currentChat,
+            setCurrentChat
         }}>
             {props.children}
         </ChatContext.Provider>

@@ -37,14 +37,13 @@ const ChatRoomList = () => {
         setFriendList(response.data.friends);
         
       } catch (error) {
-        console.log(error.response);
-        
+        console.log(error.response);    
       }
     }
     fetchFriendList();
   },[]);
 
-  console.log(chatCtx.conversations);
+
   return (
     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1 , x:0 }} transition={{ type: "spring", stiffness: 100 }} className="p-2">
 
@@ -64,7 +63,7 @@ const ChatRoomList = () => {
         <p className='mt-2' style={{fontSize:'14px',fontWeight:'600'}}>Convesations</p>
       </div>
       
-       {/* { chatCtx.conversations ? friendsList.map(user =>  <ChatRoomItem key={user.name} user={user}/>) : "No friends yet"} */}
+       { chatCtx.conversations ? chatCtx.conversations.map(c =>  <div key={c._id} onClick={()=>{chatCtx.setCurrentChat(c)}}><ChatRoomItem conversation={c} key={c._id} user={c.members}/></div>) : "No friends yet"}
            
     </motion.div>
   );
