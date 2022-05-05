@@ -34,4 +34,13 @@
 .add-btn:focus ,.decline-btn:focus{
     box-shadow: none !important;
 }
-
+.add-conversation-btn{
+    cursor: pointer;
+    color: rgba(78,172,109,0.8);
+    font-size: 23px;
+    transition: all 0.2s;
+    transform: translateY(3px);
+}
+.add-conversation-btn:hover{
+    color: var(--primary-green);
+}

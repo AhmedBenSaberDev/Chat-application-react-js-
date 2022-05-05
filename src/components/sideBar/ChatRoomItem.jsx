@@ -2,6 +2,8 @@ import { useContext } from "react";
 
 import { Image , Button } from "react-bootstrap";
 
+import {BsFillPlusSquareFill} from 'react-icons/bs';
+
 import { UserContext } from "../../store/User-context";
 
 import axios from '../../axios';
@@ -48,7 +50,7 @@ const ChatRoomItem = (props) => {
         try {
             const response = await axios.post('user/decline_friend_request',{senderId:props.user._id},config);
             props.onRequestSend(props.user._id)
-
+            console.log(response);
         } catch (error) {
             toast.error("An error occured , Please try again later", {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -56,16 +58,27 @@ const ChatRoomItem = (props) => {
         }
     }
 
+    const AddConversationHandler = async () => {
+
+        try {
+          const response = await axios.post("/conversation",{receiverId:props.user._id},config)
+          console.log(response.data);
+        } catch (error) {
+          console.log(error.response);
+        }
+
+    }
 
     return(
-        <div className={`${classes.wrapper} px-2 py-1 d-flex justify-content-between align-items-center`}>
+        <div className={`${classes.wrapper} px-2 py-1 d-flex justify-content-between align-items-basline`}>
             <div>
                 <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={props.user.image}></Image>
                 <span style={{marginLeft:'10px'}}>{props.user.userName}</span>
             </div>
-            {!props.friendRequest && !props.friendNotification && <span className={classes['msg-badge']}>5</span> }
+            {/* {!props.notification && !props.friendNotification && <span className={classes['msg-badge']}>5</span> } */}
             {props.friendRequest && <Button onClick={onAddClickHandler} className={classes['add-btn']}>Add</Button>}
             {props.friendNotification &&  <div> <Button onClick={onAcceptFriendClickHandler} className={classes['add-btn']}>Add</Button> <Button onClick={onDeclineFriendClickHandler} className={`${classes['decline-btn']} btn-danger`}>Decline</Button></div>}
+            {props.conversation && <BsFillPlusSquareFill onClick={AddConversationHandler} className={classes['add-conversation-btn']} ></BsFillPlusSquareFill>}
         </div>
     )
 };

@@ -9,7 +9,7 @@ import SideBar from "../../components/dashboard/sideBar";
 
 import { EncryptStorage } from 'encrypt-storage';
 
-import { Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 
 const Dashboard = () => {
 
@@ -33,9 +33,17 @@ const Dashboard = () => {
 
     return (
         <Row>
-            <NavBar setSelectedTab={handleSelectedTab}></NavBar>
-            <SideBar selectedTab={sideBarSelectedTab}></SideBar>
-            <Conversation></Conversation>
+            <Col xs={3}>
+                <Row >
+                    <NavBar setSelectedTab={handleSelectedTab}></NavBar>
+                    <SideBar selectedTab={sideBarSelectedTab}></SideBar>
+                </Row>
+            </Col>
+            <Col xs={9}>
+                <Row  >
+                    <Conversation></Conversation>
+                </Row>
+            </Col>
         </Row>
     )
 }
