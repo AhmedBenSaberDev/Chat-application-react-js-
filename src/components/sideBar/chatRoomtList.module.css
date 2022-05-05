@@ -20,3 +20,13 @@
     right: 0;
     cursor: pointer;
 }
+.show-modal-btn{
+    cursor: pointer;
+    color: rgba(78,172,109,0.8);
+    font-size: 23px;
+    transition: all 0.2s;
+    transform: translateY(3px);
+}
+.show-modal-btn:hover{
+    color: var(--primary-green);
+}

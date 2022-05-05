@@ -1,0 +1,22 @@
+.modal-content{
+    background-color: #262626 !important;
+    color: #ffffffcc;
+}
+.modal-header{
+    background-color:var(--primary-green) !important;
+    text-align: center !important;
+    border: none ! important;
+}
+.modal-footer{
+    border: none !important;
+}
+.modal-close-btn{
+    background-color: var(--primary-green) !important;
+    border: none !important;
+}
+.modal-close-btn:hover{
+    background-color: var(--secondary-green) !important;
+}
+.modal-close-btn:focus{
+    box-shadow: none !important;
+}

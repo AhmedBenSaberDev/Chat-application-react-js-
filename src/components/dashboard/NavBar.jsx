@@ -48,7 +48,7 @@ const NavBar = (props) => {
   }
 
   return (
-    <Col xs={1} className={`${classes.wrapper} d-flex flex-column justify-content-between align-items-center`}>
+    <Col xs={3} className={`${classes.wrapper} d-flex flex-column justify-content-between align-items-center`}>
       <div>
       <BsFillChatSquareTextFill className={`${classes.icons} ${classes.active} p-0 mt-5`}></BsFillChatSquareTextFill>
 

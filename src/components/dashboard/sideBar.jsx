@@ -13,7 +13,7 @@ const SideBar = props => {
     let selectedTab = props.selectedTab;
 
     return(
-        <Col xs={3} className={`${classes.wrapper}`}>
+        <Col xs={9} className={`${classes.wrapper}`}>
            {selectedTab === 'chat' && <ChatRoomList></ChatRoomList>}
            {selectedTab === 'add-friend' && <AddFriend></AddFriend>}
            {selectedTab === 'profile' && <Profile></Profile>}

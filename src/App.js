@@ -6,6 +6,7 @@ import SignUp from './pages/Authentification/Singup';
 import Dashboard from "./pages/dashboard/dahsboard";
 
 import { UserContextProvider } from './store/User-context';
+import { ChatContextProvider } from './store/Chat-context';
 
 import { AnimatePresence } from "framer-motion";
 
@@ -23,15 +24,17 @@ function App() {
   return (
     
     <UserContextProvider>
+      <ChatContextProvider>
       <ToastContainer></ToastContainer>
-      <AnimatePresence exitBeforeEnter>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/login" element={<Login/>} ></Route>
-          <Route path="/register" element={<SignUp/>}></Route>
-          <Route path="/dashboard" element={<Dashboard/>}></Route>
-          <Route path="/*" element={<Navigate to="/login" />} />
-        </Routes>
-      </AnimatePresence>
+        <AnimatePresence exitBeforeEnter>
+          <Routes location={location} key={location.pathname}>
+            <Route path="/login" element={<Login/>} ></Route>
+            <Route path="/register" element={<SignUp/>}></Route>
+            <Route path="/dashboard" element={<Dashboard/>}></Route>
+            <Route path="/*" element={<Navigate to="/login" />} />
+          </Routes>
+        </AnimatePresence>
+      </ChatContextProvider>
     </UserContextProvider>
   )
 }
