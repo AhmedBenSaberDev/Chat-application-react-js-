@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Image , Button } from "react-bootstrap";
 
@@ -15,8 +15,17 @@ import classes from './chatRoomItem.module.css'
 const ChatRoomItem = (props) => {
 
     const userCtx = useContext(UserContext);
+    const [userChatContact,setuserChatContact] = useState();
 
     const config = {headers: { Authorization: `Bearer ${userCtx.user?.token}` }};
+
+    useEffect(()=>{
+
+        if(props?.conversation){
+            const user = props.conversation.members.find(u => userCtx.user.userId !== u._id);
+            setuserChatContact(user);
+        }
+    },[])
 
     const onAddClickHandler = async () => {
         try {
@@ -69,16 +78,17 @@ const ChatRoomItem = (props) => {
 
     }
 
+
     return(
         <div className={`${classes.wrapper} px-2 py-1 d-flex justify-content-between align-items-basline`}>
             <div>
-                <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={props.user.image}></Image>
-                <span style={{marginLeft:'10px'}}>{props.user.userName}</span>
+                <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={userChatContact ? userChatContact.image : props.user.image}></Image>
+                <span style={{marginLeft:'10px'}}>{userChatContact ? userChatContact.userName : props.user.userName}</span>
             </div>
             {/* {!props.notification && !props.friendNotification && <span className={classes['msg-badge']}>5</span> } */}
             {props.friendRequest && <Button onClick={onAddClickHandler} className={classes['add-btn']}>Add</Button>}
             {props.friendNotification &&  <div> <Button onClick={onAcceptFriendClickHandler} className={classes['add-btn']}>Add</Button> <Button onClick={onDeclineFriendClickHandler} className={`${classes['decline-btn']} btn-danger`}>Decline</Button></div>}
-            {props.conversation && <BsFillPlusSquareFill onClick={AddConversationHandler} className={classes['add-conversation-btn']} ></BsFillPlusSquareFill>}
+            {props.addConversation && <BsFillPlusSquareFill onClick={AddConversationHandler} className={classes['add-conversation-btn']} ></BsFillPlusSquareFill>}
         </div>
     )
 };
