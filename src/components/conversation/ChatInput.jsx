@@ -11,7 +11,7 @@ const ChatInput = (props) => {
     const [message,setMessage] = useState();
 
     const handleChange = (e) => {
-        setMessage(e.target.value)
+        setMessage(e.target.value);
     }
 
     const handleSubmit = (event) => {

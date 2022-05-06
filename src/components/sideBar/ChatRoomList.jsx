@@ -63,7 +63,7 @@ const ChatRoomList = () => {
         <p className='mt-2' style={{fontSize:'14px',fontWeight:'600'}}>Convesations</p>
       </div>
       
-       { chatCtx.conversations ? chatCtx.conversations.map(c =>  <div key={c._id} onClick={()=>{chatCtx.setCurrentChat(c)}}><ChatRoomItem conversation={c} key={c._id} user={c.members}/></div>) : "No friends yet"}
+       { chatCtx.conversations ? chatCtx.conversations.map(c =>  <div key={c._id} onClick={()=>{chatCtx.joinChat(c)}}><ChatRoomItem notifications={chatCtx.notifications.filter(n => n.conversationId == c._id)} active={chatCtx.currentChat?._id == c._id ? true : false}  conversation={c} key={c._id} user={c.members}/></div>) : "No friends yet"}
            
     </motion.div>
   );
