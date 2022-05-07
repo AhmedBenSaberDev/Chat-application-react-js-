@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useLocation} from "react-router-dom";
 
-import { UserContext } from "../../store/User-context";
+import { SocketContext } from "../../store/socket-context";
 
 import Conversation from "../../components/dashboard/Conversation";
 import NavBar from "../../components/dashboard/NavBar";
@@ -16,7 +16,7 @@ const Dashboard = () => {
     const encryptStorage = new EncryptStorage('secret-key');
 
     const navigate = useNavigate();
-    const userCtx = useContext(UserContext);
+    const socketCtx = useContext(SocketContext);
 
     const [sideBarSelectedTab , setSideBarSelectedTab] = useState();
     
@@ -24,8 +24,12 @@ const Dashboard = () => {
         const userInfo = encryptStorage.getItem('userInfo');
         if(!userInfo){
             navigate('/login');
+            return
         };
-    });
+
+        socketCtx.setup(userInfo.userId);
+        
+    },[socketCtx.socket]);
 
     const handleSelectedTab = (tab) => {
         setSideBarSelectedTab(tab);

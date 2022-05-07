@@ -9,28 +9,32 @@ import ReceivedMessageBox from '../conversation/ReceivedMesageBox';
 
 import { ChatContext } from '../../store/Chat-context';
 import { UserContext } from '../../store/User-context';
+import { SocketContext } from '../../store/socket-context';
+
 
 import axios from '../../axios';
 
 import classes from './conversation.module.css';
+
+import { v4 as uuidv4 } from 'uuid';
 
 
 const Conversation = () => {
 
     const chatCtx = useContext(ChatContext);
     const userCtx = useContext(UserContext);
+    const socketCtx = useContext(SocketContext);
 
     const config = {headers: { Authorization: `Bearer ${userCtx.user?.token}` }};
 
     const [user,setUser] = useState();
-    const [messages,setMessages] = useState();
-    const [newMessage,setNewMessage] = useState("");
+    const [messages,setMessages] = useState([]);
 
     const scrollRef = useRef();
 
     useEffect(()=>{
 
-        const getMessages = async (conversationId) => {
+            const getMessages = async (conversationId) => {
             try {
                 const response = await axios.get('message/' + conversationId,config);
                 setMessages(response.data);
@@ -42,25 +46,44 @@ const Conversation = () => {
         if(chatCtx?.currentChat){
             const user = chatCtx.currentChat.members.find(u => userCtx.user.userId !== u._id);
             setUser(user);
-            getMessages();
+            getMessages(chatCtx.currentChat._id);
         }
     },[chatCtx.currentChat])
 
     useEffect(()=>{
-        scrollRef.current?.scrollIntoView({behavior: 'smooth'});
+        scrollRef.current?.scrollIntoView();
     },[messages])
+
+    useEffect(()=>{
+        socketCtx.onRecieveMessage();
+
+    },[socketCtx.socket]);
+
+    useEffect(()=>{
+        if(socketCtx.newMessage){
+            if(socketCtx.newMessage?.conversationId == chatCtx.currentChat?._id){
+                setMessages([...messages,socketCtx.newMessage]);
+            }else{
+                // send notif
+                chatCtx.setNotifications([...chatCtx.notifications,socketCtx.newMessage]);
+            } 
+        }
+    },[socketCtx.newMessage])
+
 
     const handleMessageSend = async (messageContent) =>{
 
         const message = {
+            _id:uuidv4(),
             senderId:userCtx.user.userId,
             content:messageContent,
             conversationId:chatCtx.currentChat._id
         }
 
+        socketCtx.sendMessage(userCtx.user.userId,user._id,message);
+        
         try {
             const response = await axios.post('message',message,config);
-            console.log(response.data);
             setMessages([...messages,message])
         } catch (error) {
             console.log(error.response);
@@ -76,13 +99,16 @@ const Conversation = () => {
                 <div  className={classes.test}>
                     {messages?.map(function(message){
                         if(message.senderId === userCtx.user.userId){
-                            return  <OwnerMessageBox message={message}></OwnerMessageBox>
+
+                            return  <OwnerMessageBox  key={message._id} message={message}></OwnerMessageBox>
                         }else{
-                            return  <ReceivedMessageBox  message={message}></ReceivedMessageBox>                        
+                            return  <ReceivedMessageBox  key={message._id} message={message}></ReceivedMessageBox>                        
                         }
                        
                     })}
+
                     <div style={{clear:"both"}} ref={scrollRef}></div>
+                    {/* {isTyping && <h1>currently typing</h1> } */}
                 </div>
                 
                 <ChatInput onMessageSend={handleMessageSend}/>
