@@ -1,4 +1,4 @@
-import { createContext ,useEffect , useState} from "react";
+import { createContext ,useEffect , useRef, useState} from "react";
 
 
 import { io } from "socket.io-client";
@@ -12,10 +12,33 @@ const SocketContextProvider = (props) => {
     const [socket,setSocket] = useState();
     const [newMessage,setNewMessage] = useState();
 
+    // 
+    const [stream,setStream] = useState(null);
+
+    const myVideo = useRef();
+
     useEffect(()=>{
         const sock = io.connect(END_POINT)
         setSocket(sock);
+
+        navigator.mediaDevices.getUserMedia({video:true , audio:true})
+            .then((currentStream) => {
+                setStream(currentStream);
+                myVideo.current.srcObject = currentStream;
+            })
     },[]);
+
+    const aswerCall = () => {
+
+    }
+
+    const callUser = () => {
+
+    }
+
+    const leaveCall = () => {
+
+    }
 
 
     const onRecieveMessage = () => {

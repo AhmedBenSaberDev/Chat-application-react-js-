@@ -28,7 +28,7 @@
     margin-left: 5px;
     box-shadow: 0 5px 6px rgb(38, 38 ,38,0,1);
     padding: 8px 0;
-    width: 170px !important;
+    width: 200px !important;
 }
 .tooltip.top .tooltip-arrow {
     border-top-color: transparent !important;
@@ -36,20 +36,22 @@
 .popover-item{
     width: 100%;
     color: #8f9198 ;
-    font-weight: 600;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    padding: 4px 0px;
+    padding: 5px 12px;
+    margin: 3px 0;
     -webkit-user-select: none;  
     -moz-user-select: none;    
     -ms-user-select: none;      
     user-select: none;
+    font-weight: 500;
+    font-size: 15px;
 }
 .popover-item:hover{
     cursor: pointer;
     background-color: rgba(56, 56, 56,1);
 }
 .popover-icons{
-    font-size: 15px;
+    font-size: 16px;
 }

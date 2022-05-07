@@ -12,7 +12,7 @@ const TopBar = (props) => {
         <Col className={`${classes.wrapper} d-flex justify-content-between align-items-center`}>
             
             {props.user && <div className="d-flex justify-content-between align-items-center">
-                <Image roundedCircle style={{width:"40px",height:"40px",objectFit:"cover"}}  src={props.user.image }></Image>
+                <Image roundedCircle style={{width:"40px",height:"40px",objectFit:"cover"}}  src={props.user.image ? "http://localhost:5000/" +  props.user.image : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg" }></Image>
                 <div className={`${classes['user-info']} d-flex flex-column justify-content-between align-items-start`}>
                     <span className={classes.username}>{props.user.userName }</span>
                     <span className={classes.status}>Online</span>

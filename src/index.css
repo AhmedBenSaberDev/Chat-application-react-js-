@@ -13,3 +13,41 @@ body{
 .popover-arrow{
   display:none !important
 }
+.emoji-picker-react{
+  background-color: #2b2b2b!important;
+  color: #757575!important;
+  box-shadow: none !important;
+  border:none !important;
+  
+}
+.icn-smileys_people{
+  color: white!important;
+}
+.emoji-group::before ,.emoji-group::after {
+  background-color: #2b2b2b!important;
+}
+.emoji-search{
+  background-color: #2b2b2b;
+  border: 1px solid rgb(65, 64, 64) !important;
+  color:  #FFFFFFCC;
+}
+.active-category-indicator{
+  background-color: var(--primary-green) !important;
+}
+::-webkit-scrollbar-track {
+  background: transparent; 
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8f9198; 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

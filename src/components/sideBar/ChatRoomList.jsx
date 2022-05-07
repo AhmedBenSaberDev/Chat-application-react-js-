@@ -49,7 +49,7 @@ const ChatRoomList = () => {
 
       <FriendsModalList friendsList={friendsList} show={modalShow} onHide={() => setModalShow(false)}></FriendsModalList>
       
-      <div className='d-flex justify-content-around align-items-center mt-2'>
+      <div className='d-flex justify-content-around align-items-center'>
         <h4 className="mt-2 mb-2">Chats</h4>
         <BsFillPlusSquareFill className={classes['show-modal-btn']} onClick={() => setModalShow(true)}></BsFillPlusSquareFill>
       </div>

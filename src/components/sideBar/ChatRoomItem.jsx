@@ -19,6 +19,7 @@ const ChatRoomItem = (props) => {
     const chatCtx = useContext(ChatContext);
 
     const [userChatContact,setuserChatContact] = useState();
+    const [image,setImage] = useState();
 
     const config = {headers: { Authorization: `Bearer ${userCtx.user?.token}` }};
 
@@ -29,8 +30,6 @@ const ChatRoomItem = (props) => {
             setuserChatContact(user);
         }
     },[])
-
-
 
     const onAddClickHandler = async () => {
         try {
@@ -76,18 +75,40 @@ const ChatRoomItem = (props) => {
 
         try {
           const response = await axios.post("/conversation",{receiverId:props.user._id},config)
-          console.log(response.data);
+          console.log(response);
+          props.onCloseModalHandler();
         } catch (error) {
-          console.log(error.response);
-        }
-
+            toast.error("An error occured , Please try again later", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+        } 
     }
 
+    useEffect(() => {
+        let imageEndPoint = "http://localhost:5000/"
+        let userImage ;
+
+        if(userChatContact?.image){
+            userImage = imageEndPoint + userChatContact?.image; 
+            setImage(userImage)
+            return
+        }
+        if(props.user?.image)
+        {
+            userImage = imageEndPoint + props.user.image;
+            console.log("userImage");
+            setImage(userImage)
+            return
+        }
+        userImage = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+        setImage(userImage)
+        
+    },[])
 
     return(
         <div style={props.active ? {backgroundColor:"rgba(78,172,109,0.3)",color:'#FFFFFFCC'} : {}} className={`${classes.wrapper} px-2 py-2 d-flex justify-content-between align-items-basline my-1`}>
             <div>
-                <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={userChatContact ? userChatContact.image : props.user.image}></Image>
+                <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={image}></Image>
                 <span style={{marginLeft:'10px'}}>{userChatContact ? userChatContact.userName : props.user.userName}</span>
             </div>
             {props.notifications?.length > 0 && <span className={classes['msg-badge']}> { props.notifications.length}</span> }
