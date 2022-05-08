@@ -18,7 +18,7 @@ const Notifications = () => {
         }
         const getFriendRequests = async () => {
             try {
-                const response = await axios.post("user/user-info",{userId:userCtx.user.userId},config);
+                const response = await axios.post("api/user/user-info",{userId:userCtx.user.userId},config);
                 setFriendRequests(response.data.friendRequests);
             } catch (error) {
                 console.log(error.response);
