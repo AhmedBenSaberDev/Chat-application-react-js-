@@ -18,6 +18,8 @@ import classes from './conversation.module.css';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import VideoPlayer from '../conversation/VideoPlayer';
+
 
 const Conversation = () => {
 
@@ -114,7 +116,8 @@ const Conversation = () => {
                 <ChatInput onMessageSend={handleMessageSend}/>
             </div> : 
             <div className={classes['no-chat']}>
-                <h2 className={classes["nochat-title"]}>Select a chat to start a conversation</h2>
+                {/* <h2 className={classes["nochat-title"]}>Select a chat to start a conversation</h2> */}*
+                <VideoPlayer></VideoPlayer>
             </div>
             }
             

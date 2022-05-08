@@ -29,7 +29,7 @@ const ChatRoomItem = (props) => {
             const user = props.conversation.members.find(u => userCtx.user.userId !== u._id);
             setuserChatContact(user);
         }
-    },[])
+    },[props.conversation])
 
     const onAddClickHandler = async () => {
         try {
@@ -99,11 +99,12 @@ const ChatRoomItem = (props) => {
             console.log("userImage");
             setImage(userImage)
             return
+        }else{
+            userImage = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+            setImage(userImage)
         }
-        userImage = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-        setImage(userImage)
         
-    },[])
+    },[userChatContact])
 
     return(
         <div style={props.active ? {backgroundColor:"rgba(78,172,109,0.3)",color:'#FFFFFFCC'} : {}} className={`${classes.wrapper} px-2 py-2 d-flex justify-content-between align-items-basline my-1`}>
