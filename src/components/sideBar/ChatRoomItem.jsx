@@ -11,6 +11,8 @@ import axios from '../../axios';
 
 import { toast } from "react-toastify";
 
+import env from "react-dotenv";
+
 import classes from './chatRoomItem.module.css'
 
 const ChatRoomItem = (props) => {
@@ -33,7 +35,7 @@ const ChatRoomItem = (props) => {
 
     const onAddClickHandler = async () => {
         try {
-            await axios.post('user/add_user',{requestToId:props.user._id},config);
+            await axios.post('api/user/add_user',{requestToId:props.user._id},config);
             props.onRequestSend(props.user._id)
             toast.success("Request sent successfully", {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -47,7 +49,7 @@ const ChatRoomItem = (props) => {
 
     const onAcceptFriendClickHandler = async () => {
         try {
-            const response = await axios.post('user/accept_friend_request',{senderId:props.user._id},config);
+            const response = await axios.post('api/user/accept_friend_request',{senderId:props.user._id},config);
             props.onRequestSend(props.user._id)
             toast.success("Friend added successfully", {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -61,7 +63,7 @@ const ChatRoomItem = (props) => {
 
     const onDeclineFriendClickHandler = async () => {
         try {
-            const response = await axios.post('user/decline_friend_request',{senderId:props.user._id},config);
+            const response = await axios.post('api/user/decline_friend_request',{senderId:props.user._id},config);
             props.onRequestSend(props.user._id)
             console.log(response);
         } catch (error) {
@@ -74,7 +76,7 @@ const ChatRoomItem = (props) => {
     const AddConversationHandler = async () => {
 
         try {
-          const response = await axios.post("/conversation",{receiverId:props.user._id},config)
+          const response = await axios.post("api/conversation",{receiverId:props.user._id},config)
           console.log(response);
           props.onCloseModalHandler();
         } catch (error) {
@@ -85,17 +87,16 @@ const ChatRoomItem = (props) => {
     }
 
     useEffect(() => {
-        let imageEndPoint = "http://localhost:5000/"
         let userImage ;
 
         if(userChatContact?.image){
-            userImage = imageEndPoint + userChatContact?.image; 
+            userImage = env.END_POINT + userChatContact?.image; 
             setImage(userImage)
             return
         }
         if(props.user?.image)
         {
-            userImage = imageEndPoint + props.user.image;
+            userImage = env.END_POINT + props.user.image;
             console.log("userImage");
             setImage(userImage)
             return

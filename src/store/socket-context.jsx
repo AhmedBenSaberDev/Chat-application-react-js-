@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 
 import Peer from 'simple-peer';
 
-const END_POINT = 'http://localhost:5000';
+const END_POINT = 'https://gecko-chat.herokuapp.com';
 
 const SocketContext = createContext();
 

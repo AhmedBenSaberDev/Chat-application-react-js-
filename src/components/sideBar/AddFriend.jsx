@@ -34,7 +34,7 @@ const AddFriend = () => {
     if(e.target.value.length > 0 ){
       setIsLoading(true);
       try {
-        const response = await axios.get('user/search_user/' + e.target.value,{headers: { Authorization: `Bearer ${userCtx.user.token}` }});
+        const response = await axios.get('api/user/search_user/' + e.target.value,{headers: { Authorization: `Bearer ${userCtx.user.token}` }});
         setSearchResult(response.data);
   
       } catch (error) {

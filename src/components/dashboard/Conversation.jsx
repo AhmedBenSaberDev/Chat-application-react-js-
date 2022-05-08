@@ -38,7 +38,7 @@ const Conversation = () => {
 
             const getMessages = async (conversationId) => {
             try {
-                const response = await axios.get('message/' + conversationId,config);
+                const response = await axios.get('api/message/' + conversationId,config);
                 setMessages(response.data);
             } catch (error) {
                 console.log(error.response);
@@ -85,7 +85,7 @@ const Conversation = () => {
         socketCtx.sendMessage(userCtx.user.userId,user._id,message);
         
         try {
-            const response = await axios.post('message',message,config);
+            const response = await axios.post('api/message',message,config);
             setMessages([...messages,message])
         } catch (error) {
             console.log(error.response);

@@ -38,7 +38,7 @@ const Login = () => {
         setCredentialIsInValid(false);
 
         try {   
-            const response = await axios.post('user/login',data);
+            const response = await axios.post('api/user/login',data);
             const encryptStorage = new EncryptStorage('secret-key');
             encryptStorage.setItem('userInfo',response.data);
             console.log(response.data);
@@ -59,7 +59,7 @@ const Login = () => {
 
     const googleSuccess = async (res) => {
         try {
-            const response = await axios.post('user/google_auth',{tokenId:res.tokenId});
+            const response = await axios.post('api/user/google_auth',{tokenId:res.tokenId});
             const encryptStorage = new EncryptStorage('secret-key');
             console.log(response.data);
             encryptStorage.setItem('userInfo',response.data);

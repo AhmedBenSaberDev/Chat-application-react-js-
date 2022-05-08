@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 
 import { UserContext } from '../../store/User-context';
 
+import env from "react-dotenv";
+
 import classes from "./navBar.module.css";
 
 
@@ -108,7 +110,7 @@ const NavBar = (props) => {
       }
     >
       <div style={{cursor:"pointer"}} className={`${classes['icon-wrapper']} mb-4 d-flex flex-column justify-content-center align-items-center`}>
-      <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={userCtx.user?.image ? "http://localhost:5000/" + userCtx.user?.image :  "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"}></Image>
+      <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={userCtx.user?.image ? env.END_POINT + userCtx.user?.image :  "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"}></Image>
         <Button className={`${classes['parameters-btn']} my-3`}><IoMdSettings className={`${classes.icons}`}></IoMdSettings></Button>
       </div>
     </OverlayTrigger>

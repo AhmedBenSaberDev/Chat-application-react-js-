@@ -26,7 +26,7 @@ const ChatContextProvider = (props) => {
         const config = {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         };
-        const response = await axios.get("conversation", config);
+        const response = await axios.get("api/conversation", config);
         setConversations(response.data);
       } catch (error) {
         console.log(error.response);

@@ -33,7 +33,7 @@ const ChatRoomList = () => {
   useEffect(()=>{
     const fetchFriendList = async () => {
       try {
-        const response = await axios.post('user/user-info',{userId:userCtx.user.userId},config);
+        const response = await axios.post('api/user/user-info',{userId:userCtx.user.userId},config);
         setFriendList(response.data.friends);
         
       } catch (error) {
