@@ -6,10 +6,12 @@ import {BsFillPlusSquareFill} from 'react-icons/bs';
 
 import { UserContext } from "../../store/User-context";
 import { ChatContext } from '../../store/Chat-context';
-
+import { SocketContext } from "../../store/socket-context";
 import axios from '../../axios';
 
 import { toast } from "react-toastify";
+
+import env from "react-dotenv";
 
 import classes from './chatRoomItem.module.css'
 
@@ -17,6 +19,7 @@ const ChatRoomItem = (props) => {
 
     const userCtx = useContext(UserContext);
     const chatCtx = useContext(ChatContext);
+    const {sendAddFriendNotification} = useContext(SocketContext);
 
     const [userChatContact,setuserChatContact] = useState();
     const [image,setImage] = useState();
@@ -24,20 +27,21 @@ const ChatRoomItem = (props) => {
     const config = {headers: { Authorization: `Bearer ${userCtx.user?.token}` }};
 
     useEffect(()=>{
-
+        
         if(props?.conversation){
             const user = props.conversation.members.find(u => userCtx.user.userId !== u._id);
             setuserChatContact(user);
         }
-    },[])
+    },[props.conversation])
 
     const onAddClickHandler = async () => {
         try {
-            await axios.post('user/add_user',{requestToId:props.user._id},config);
+            await axios.post('api/user/add_user',{requestToId:props.user._id},config);
             props.onRequestSend(props.user._id)
             toast.success("Request sent successfully", {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
+            sendAddFriendNotification(props.user,{userName:userCtx.user.userName,_id:userCtx.user.userId,image:userCtx.user.image});
         } catch (error) {
             toast.error("An error occured , Please try again later", {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -47,7 +51,7 @@ const ChatRoomItem = (props) => {
 
     const onAcceptFriendClickHandler = async () => {
         try {
-            const response = await axios.post('user/accept_friend_request',{senderId:props.user._id},config);
+            const response = await axios.post('api/user/accept_friend_request',{senderId:props.user._id},config);
             props.onRequestSend(props.user._id)
             toast.success("Friend added successfully", {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -61,7 +65,7 @@ const ChatRoomItem = (props) => {
 
     const onDeclineFriendClickHandler = async () => {
         try {
-            const response = await axios.post('user/decline_friend_request',{senderId:props.user._id},config);
+            const response = await axios.post('api/user/decline_friend_request',{senderId:props.user._id},config);
             props.onRequestSend(props.user._id)
             console.log(response);
         } catch (error) {
@@ -74,7 +78,7 @@ const ChatRoomItem = (props) => {
     const AddConversationHandler = async () => {
 
         try {
-          const response = await axios.post("/conversation",{receiverId:props.user._id},config)
+          const response = await axios.post("api/conversation",{receiverId:props.user._id},config)
           console.log(response);
           props.onCloseModalHandler();
         } catch (error) {
@@ -85,25 +89,25 @@ const ChatRoomItem = (props) => {
     }
 
     useEffect(() => {
-        let imageEndPoint = "http://localhost:5000/"
         let userImage ;
 
         if(userChatContact?.image){
-            userImage = imageEndPoint + userChatContact?.image; 
+            userImage = env.END_POINT + userChatContact?.image; 
             setImage(userImage)
             return
         }
         if(props.user?.image)
         {
-            userImage = imageEndPoint + props.user.image;
+            userImage = env.END_POINT + props.user.image;
             console.log("userImage");
             setImage(userImage)
             return
+        }else{
+            userImage = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+            setImage(userImage)
         }
-        userImage = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-        setImage(userImage)
         
-    },[])
+    },[userChatContact])
 
     return(
         <div style={props.active ? {backgroundColor:"rgba(78,172,109,0.3)",color:'#FFFFFFCC'} : {}} className={`${classes.wrapper} px-2 py-2 d-flex justify-content-between align-items-basline my-1`}>

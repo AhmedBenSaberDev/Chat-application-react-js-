@@ -68,7 +68,7 @@ const SignUp = () => {
         setEmailExistsErrors(false);
 
         try {   
-            await axios.post('user/signup',data);
+            await axios.post('api/user/signup',data);
             navigate('/login');
             toast.success("Account created successfuly !", {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -118,7 +118,7 @@ const SignUp = () => {
 
     const googleSuccess = async (res) => {
         try {
-            const response = await axios.post('user/google_auth',{tokenId:res.tokenId});
+            const response = await axios.post('api/user/google_auth',{tokenId:res.tokenId});
             const encryptStorage = new EncryptStorage('secret-key');
             encryptStorage.setItem('userInfo',response.data);
             navigate('/dashboard');

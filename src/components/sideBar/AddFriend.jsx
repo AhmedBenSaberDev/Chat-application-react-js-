@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { BsSearch } from 'react-icons/bs';
 
@@ -34,7 +34,7 @@ const AddFriend = () => {
     if(e.target.value.length > 0 ){
       setIsLoading(true);
       try {
-        const response = await axios.get('user/search_user/' + e.target.value,{headers: { Authorization: `Bearer ${userCtx.user.token}` }});
+        const response = await axios.get('api/user/search_user/' + e.target.value,{headers: { Authorization: `Bearer ${userCtx.user.token}` }});
         setSearchResult(response.data);
   
       } catch (error) {
@@ -78,7 +78,7 @@ const AddFriend = () => {
     {searchResult?.length > 0 ? searchResult.map(function(user){
 
       if(!user.friendRequests.includes(userCtx.user.userId)){
-        return <div><ChatRoomItem onRequestSend={handleUserSentRequest} key={user._id} user={user} friendRequest={true} /> <hr style={{width:"100%",margin:"5px auto",color:'var(--primary-green)'}}></hr> </div>
+        return <div key={user._id}><ChatRoomItem onRequestSend={handleUserSentRequest} key={user._id} user={user} friendRequest={true} /> <hr style={{width:"100%",margin:"5px auto",color:'var(--primary-green)'}}></hr> </div>
       }
     } ) : ''}
   </motion.div>

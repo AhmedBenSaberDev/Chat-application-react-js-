@@ -1,3 +1,3 @@
 window.env = {
-  "END_POINT": "http://localhost:5000/api/"
+  "END_POINT": "https://gecko-chat.herokuapp.com/"
 };

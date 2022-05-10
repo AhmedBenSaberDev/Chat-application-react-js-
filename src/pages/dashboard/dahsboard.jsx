@@ -11,6 +11,8 @@ import { EncryptStorage } from 'encrypt-storage';
 
 import { Col, Row } from "react-bootstrap";
 
+import env from "react-dotenv";
+
 const Dashboard = () => {
 
     const encryptStorage = new EncryptStorage('secret-key');

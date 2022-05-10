@@ -55,3 +55,22 @@
 .popover-icons{
     font-size: 16px;
 }
+.notifiacation-container{
+    position: relative;
+    z-index: 1;
+}
+.notif-badge{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    position: absolute;
+    top: -15px;
+    right: -10px;
+    background-color: rgba(143,145,152,0.18) ;
+    color: #8f9198 ;
+    padding: 0.2rem;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+}
