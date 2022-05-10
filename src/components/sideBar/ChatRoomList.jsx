@@ -25,6 +25,7 @@ const ChatRoomList = () => {
   const chatCtx = useContext(ChatContext)
 
   const [modalShow, setModalShow] = useState(false);
+  const [conversations,setConversations] = useState([]);
 
   const config = {headers: { Authorization: `Bearer ${userCtx.user?.token}` }};
 
@@ -42,6 +43,10 @@ const ChatRoomList = () => {
     }
     fetchFriendList();
   },[]);
+
+  useEffect(() => {
+    setConversations(chatCtx.conversations);
+  },[chatCtx.conversations])
 
 
   return (
@@ -63,7 +68,7 @@ const ChatRoomList = () => {
         <p className='mt-2' style={{fontSize:'14px',fontWeight:'600'}}>Convesations</p>
       </div>
       
-       { chatCtx.conversations ? chatCtx.conversations.map(c =>  <div key={c._id} onClick={()=>{chatCtx.joinChat(c)}}><ChatRoomItem notifications={chatCtx.notifications.filter(n => n.conversationId == c._id)} active={chatCtx.currentChat?._id == c._id ? true : false}  conversation={c} key={c._id} user={c.members}/></div>) : "No friends yet"}
+       { conversations ? conversations.map(c =>  <div key={c._id} onClick={()=>{chatCtx.joinChat(c)}}><ChatRoomItem notifications={chatCtx.notifications.filter(n => n.conversationId == c._id)} active={chatCtx.currentChat?._id == c._id ? true : false}  conversation={c} key={c._id} user={c.members}/></div>) : "No friends yet"}
            
     </motion.div>
   );

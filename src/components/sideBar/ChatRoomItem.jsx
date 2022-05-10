@@ -6,7 +6,7 @@ import {BsFillPlusSquareFill} from 'react-icons/bs';
 
 import { UserContext } from "../../store/User-context";
 import { ChatContext } from '../../store/Chat-context';
-
+import { SocketContext } from "../../store/socket-context";
 import axios from '../../axios';
 
 import { toast } from "react-toastify";
@@ -19,6 +19,7 @@ const ChatRoomItem = (props) => {
 
     const userCtx = useContext(UserContext);
     const chatCtx = useContext(ChatContext);
+    const {sendAddFriendNotification} = useContext(SocketContext);
 
     const [userChatContact,setuserChatContact] = useState();
     const [image,setImage] = useState();
@@ -26,7 +27,7 @@ const ChatRoomItem = (props) => {
     const config = {headers: { Authorization: `Bearer ${userCtx.user?.token}` }};
 
     useEffect(()=>{
-
+        
         if(props?.conversation){
             const user = props.conversation.members.find(u => userCtx.user.userId !== u._id);
             setuserChatContact(user);
@@ -40,6 +41,7 @@ const ChatRoomItem = (props) => {
             toast.success("Request sent successfully", {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
+            sendAddFriendNotification(props.user,{userName:userCtx.user.userName,_id:userCtx.user.userId,image:userCtx.user.image});
         } catch (error) {
             toast.error("An error occured , Please try again later", {
                 position: toast.POSITION.BOTTOM_RIGHT

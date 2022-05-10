@@ -94,7 +94,7 @@ const Conversation = () => {
 
     return(
         <Col style={{margin:0}} xs={12} className={`${classes['conversation-container']} p-0 m-0`}>
-
+            <VideoPlayer user={user}></VideoPlayer>
             { chatCtx.currentChat ?  
             <div className={`${classes.wrapper} `}>
                 <TopBar user={user}/>
@@ -116,8 +116,7 @@ const Conversation = () => {
                 <ChatInput onMessageSend={handleMessageSend}/>
             </div> : 
             <div className={classes['no-chat']}>
-                {/* <h2 className={classes["nochat-title"]}>Select a chat to start a conversation</h2> */}*
-                <VideoPlayer></VideoPlayer>
+                <h2 className={classes["nochat-title"]}>Select a chat to start a conversation</h2>
             </div>
             }
             

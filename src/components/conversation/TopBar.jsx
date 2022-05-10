@@ -18,7 +18,7 @@ const TopBar = (props) => {
     const userCtx = useContext(UserContext)
 
     const onCallUserHandler = () => {
-        callUser(props.user._id,userCtx.user.userId);
+        callUser(props.user._id,userCtx.user);
     }
 
     return(

@@ -41,7 +41,6 @@ const Login = () => {
             const response = await axios.post('api/user/login',data);
             const encryptStorage = new EncryptStorage('secret-key');
             encryptStorage.setItem('userInfo',response.data);
-            console.log(response.data);
             navigate('/dashboard');
         } catch (error) {
             if(error.response.status == 401 ){
@@ -61,7 +60,6 @@ const Login = () => {
         try {
             const response = await axios.post('api/user/google_auth',{tokenId:res.tokenId});
             const encryptStorage = new EncryptStorage('secret-key');
-            console.log(response.data);
             encryptStorage.setItem('userInfo',response.data);
             navigate('/dashboard');
         } catch (error) {

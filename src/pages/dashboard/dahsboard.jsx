@@ -15,10 +15,6 @@ import env from "react-dotenv";
 
 const Dashboard = () => {
 
-    useEffect(() => {
-        console.log(env);
-    },[])
-
     const encryptStorage = new EncryptStorage('secret-key');
 
     const navigate = useNavigate();

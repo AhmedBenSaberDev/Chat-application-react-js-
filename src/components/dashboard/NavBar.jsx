@@ -11,8 +11,8 @@ import {BsFillChatSquareTextFill,BsPersonCircle,BsChatLeftFill,BsLock} from "rea
 import { useNavigate } from "react-router-dom";
 
 import { UserContext } from '../../store/User-context';
+import { SocketContext } from "../../store/socket-context";
 
-import env from "react-dotenv";
 
 import classes from "./navBar.module.css";
 
@@ -20,6 +20,7 @@ import classes from "./navBar.module.css";
 const NavBar = (props) => {
 
   const userCtx = useContext(UserContext);
+  const {newFriendRequests,setNewFriendRequests} = useContext(SocketContext);
 
   const navigate = useNavigate();
 
@@ -78,8 +79,9 @@ const NavBar = (props) => {
       </OverlayTrigger>
 
       <OverlayTrigger className="mt-4" placement="right" overlay={<Tooltip className={classes.tooltip}>Chats</Tooltip>}>
-        <div onClick={handleSelectedTab4} className={`${classes['icon-wrapper']} mt-5`}>
+        <div onClick={handleSelectedTab4} className={`${classes['icon-wrapper']} mt-5 ${classes['notifiacation-container']}`}>
           <IoMdNotifications className={`${classes.icons} ${sideBarSelectedTab === "notifications" ? classes.active : ""}`}></IoMdNotifications>
+          {newFriendRequests.length > 0 && <span className={classes['notif-badge']}>{newFriendRequests.length}</span>}
         </div>
       </OverlayTrigger>
       </div>
@@ -110,7 +112,7 @@ const NavBar = (props) => {
       }
     >
       <div style={{cursor:"pointer"}} className={`${classes['icon-wrapper']} mb-4 d-flex flex-column justify-content-center align-items-center`}>
-      <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={userCtx.user?.image ? env.END_POINT + userCtx.user?.image :  "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"}></Image>
+      <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={userCtx.getUserImage()}></Image>
         <Button className={`${classes['parameters-btn']} my-3`}><IoMdSettings className={`${classes.icons}`}></IoMdSettings></Button>
       </div>
     </OverlayTrigger>

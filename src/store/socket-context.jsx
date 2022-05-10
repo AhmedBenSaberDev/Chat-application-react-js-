@@ -1,23 +1,32 @@
-import { createContext ,useEffect , useRef, useState} from "react";
+import { createContext ,useCallback,useEffect , useRef, useState} from "react";
 
 
 import { io } from "socket.io-client";
 
 import Peer from 'simple-peer';
 
-const END_POINT = 'https://gecko-chat.herokuapp.com';
+import {Howl, Howler} from 'howler';
+import callSound from '../assets/ringtone/ring.wav';
+
+// const END_POINT = 'https://gecko-chat.herokuapp.com';
+const END_POINT = 'http://localhost:5000';
 
 const SocketContext = createContext();
+
+const CALL_SOUND = new Howl({
+    src: [callSound]
+  });
 
 
 const SocketContextProvider = (props) => {
 
     const [socket,setSocket] = useState();
     const [newMessage,setNewMessage] = useState();
+    const [newFriendRequests,setNewFriendRequests] = useState([]);
 
     // 
     const [stream,setStream] = useState(null);
-    const [call,setCall] = useState({});
+    const [call,setCall] = useState(null);
     const [callAccepted,setCallAccepted] = useState(false);
     const [callEnded,setCallEnded] = useState(false);
     const [name,setName] = useState();
@@ -25,6 +34,10 @@ const SocketContextProvider = (props) => {
     const myVideo = useRef();
     const userVideo = useRef();
     const connectionRef = useRef();
+
+    const playSound = useCallback(()=>{
+        CALL_SOUND.play();
+    })
 
     useEffect(()=>{
         const sock = io.connect(END_POINT)
@@ -35,39 +48,58 @@ const SocketContextProvider = (props) => {
                 setStream(currentStream);
                 myVideo.current.srcObject = currentStream;
             })
-        sock.on("calluser",({ from , name:callerName , signal }) => {
-            setCall({isReceivedCall:true , from , name:callerName , signal})
-            console.log("receiving");
-        }) 
 
-        sock.on('test',()=>{
-            console.log("test recieved");
-        })
+        sock.on('friend request notification',(user) => {
+            console.log(user);
+            setNewFriendRequests((prev) => [...prev , user]);
+        });
+
+        sock.on("calluser",({ from  , signal }) => {
+            setCall({isReceivedCall:true , from , signal})
+            playSound();
+        });
+
+        sock.on('callended',() => {
+            setCall(null);
+    
+            connectionRef.current?.destroy();
+    
+            CALL_SOUND.stop();
+            console.log("ended");
+        })  
+
     },[]);
 
-    const answerCall = () => {
-        setCallAccepted(true);
+    const answerCall = useCallback(
+        () => {
+            setCallAccepted(true);
+            CALL_SOUND.stop();
+    
+            const peer = new Peer({initiator:false , trickle:false , stream});
+    
+            peer.on('signal',(data) => {
+                socket.emit('answercall',{signal:data , to:call.from.userId })
+            })
+    
+            peer.on('stream',(currentStream) => {
+                userVideo.current.srcObject = currentStream;
+            })
+    
+            peer.signal(call.signal);
+    
+            connectionRef.current = peer;
+        }
+    )
+        
 
-        const peer = new Peer({initiator:false , trickle:false , stream});
+    const callUser = (id,me) => {
 
-        peer.on('signal',(data) => {
-            socket.on('answercall',{signal:data , to:call.from })
-        })
+        playSound();
 
-        peer.on('stream',(currentStream) => {
-            userVideo.current.srcObject = currentStream;
-        })
-
-        peer.signal(call.signal);
-
-        connectionRef.current = peer;
-    }
-
-    const callUser = (id,myId) => {
         const peer = new Peer({initiator:true , trickle:false , stream});
 
         peer.on('signal',(data) => {
-            socket.emit('calluser',{userToCall : id , signalData:data , from : myId , name })
+            socket.emit('calluser',{userToCall : id , signalData:data , from : me})
         })
 
         peer.on('stream',(currentStream) => {
@@ -79,14 +111,25 @@ const SocketContextProvider = (props) => {
             peer.signal(signal)
         })
 
+        setCall({isReceivedCall:false,from:me})
+
         connectionRef.current = peer;
     }
 
-    const leaveCall = () => {
-        setCallEnded(true);
+    const leaveCall = useCallback(
 
-        connectionRef.current.destroy();
-    }
+        (callerId,recieverId=call.from?.me.userId) => {
+            socket?.emit('leavecall',{callerId,recieverId});
+        
+            setCall(null);
+            setCallAccepted(false);
+    
+            connectionRef.current?.destroy();
+    
+            CALL_SOUND.stop();
+            
+    },[socket,call] 
+      );
 
 
     const onRecieveMessage = () => {
@@ -107,6 +150,11 @@ const SocketContextProvider = (props) => {
         socket?.emit('new message',{senderId,receiverId,message});
     }
 
+    const sendAddFriendNotification = (reciever,sender) => {
+        console.log(sender);
+        
+        socket?.emit('friend request notification',{reciever,sender});
+    } 
 
     return(
         <SocketContext.Provider value={
@@ -116,6 +164,9 @@ const SocketContextProvider = (props) => {
                 sendMessage,
                 onRecieveMessage,
                 newMessage,
+                sendAddFriendNotification,
+                newFriendRequests,
+                setNewFriendRequests,
                 socket,      
                 // 
                 call,
@@ -129,6 +180,7 @@ const SocketContextProvider = (props) => {
                 callUser,
                 leaveCall,
                 answerCall, 
+                
             }
         }>
             {props.children}
