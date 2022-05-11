@@ -1,4 +1,4 @@
-import { createContext ,useCallback,useEffect , useRef, useState} from "react";
+import { createContext ,useCallback,useContext,useEffect , useRef, useState} from "react";
 
 
 import { io } from "socket.io-client";
@@ -8,8 +8,8 @@ import Peer from 'simple-peer';
 import {Howl, Howler} from 'howler';
 import callSound from '../assets/ringtone/ring.wav';
 
-// const END_POINT = 'https://gecko-chat.herokuapp.com';
-const END_POINT = 'http://localhost:5000';
+const END_POINT = 'https://gecko-chat.herokuapp.com';
+// const END_POINT = 'http://localhost:5000';
 
 const SocketContext = createContext();
 
@@ -23,6 +23,7 @@ const SocketContextProvider = (props) => {
     const [socket,setSocket] = useState();
     const [newMessage,setNewMessage] = useState();
     const [newFriendRequests,setNewFriendRequests] = useState([]);
+    
 
     // 
     const [stream,setStream] = useState(null);
@@ -50,7 +51,7 @@ const SocketContextProvider = (props) => {
             })
 
         sock.on('friend request notification',(user) => {
-            console.log(user);
+
             setNewFriendRequests((prev) => [...prev , user]);
         });
 
@@ -151,7 +152,10 @@ const SocketContextProvider = (props) => {
     }
 
     const sendAddFriendNotification = (reciever,sender) => {
+        console.log("sender");
         console.log(sender);
+        console.log("reciever");
+        console.log(reciever);
         
         socket?.emit('friend request notification',{reciever,sender});
     } 

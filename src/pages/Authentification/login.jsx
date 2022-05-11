@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -25,8 +25,12 @@ import axios from '../../axios';
 
 import { toast } from 'react-toastify';
 
+import { UserContext } from '../../store/User-context';
+
 
 const Login = () => {
+
+    const {setUser,setFriendRequests} = useContext(UserContext);
     
     const [loading,setLoading] = useState(false);
     const [credentialIsInValid,setCredentialIsInValid] = useState(false);
@@ -41,16 +45,19 @@ const Login = () => {
             const response = await axios.post('api/user/login',data);
             const encryptStorage = new EncryptStorage('secret-key');
             encryptStorage.setItem('userInfo',response.data);
+            setUser(response.data);
+            setFriendRequests(response.data.friendRequests);
             navigate('/dashboard');
         } catch (error) {
-            if(error.response.status == 401 ){
-                setCredentialIsInValid(true);
-            }
-            if(error.response.status == 500){
-                toast.error("An error occured, please try again later !", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
-            }
+            console.log(error);
+            // if(error.response.status == 401 ){
+            //     setCredentialIsInValid(true);
+            // }
+            // if(error.response.status == 500){
+            //     toast.error("An error occured, please try again later !", {
+            //         position: toast.POSITION.BOTTOM_RIGHT
+            //     });
+            // }
         }
 
         setLoading(false);
@@ -61,6 +68,8 @@ const Login = () => {
             const response = await axios.post('api/user/google_auth',{tokenId:res.tokenId});
             const encryptStorage = new EncryptStorage('secret-key');
             encryptStorage.setItem('userInfo',response.data);
+            setUser(response.data);
+            setFriendRequests(response.data.friendRequests);
             navigate('/dashboard');
         } catch (error) {
             toast.error("An error occured, please try again later !", {

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate , useLocation} from "react-router-dom";
 
 import { SocketContext } from "../../store/socket-context";
+import { UserContext } from "../../store/User-context";
 
 import Conversation from "../../components/dashboard/Conversation";
 import NavBar from "../../components/dashboard/NavBar";
@@ -19,19 +20,19 @@ const Dashboard = () => {
 
     const navigate = useNavigate();
     const socketCtx = useContext(SocketContext);
+    const {user} = useContext(UserContext)
 
     const [sideBarSelectedTab , setSideBarSelectedTab] = useState();
     
     useEffect(() => {
-        const userInfo = encryptStorage.getItem('userInfo');
-        if(!userInfo){
+        if(!user){
             navigate('/login');
             return
         };
 
-        socketCtx.setup(userInfo.userId);
+        socketCtx.setup(user.userId);
         
-    },[socketCtx.socket]);
+    },[socketCtx.socket,user]);
 
     const handleSelectedTab = (tab) => {
         setSideBarSelectedTab(tab);

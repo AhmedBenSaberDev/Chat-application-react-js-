@@ -19,8 +19,9 @@ import classes from "./navBar.module.css";
 
 const NavBar = (props) => {
 
-  const userCtx = useContext(UserContext);
-  const {newFriendRequests,setNewFriendRequests} = useContext(SocketContext);
+  const {user,setUser,getUserImage,friendRequests} = useContext(UserContext);
+  // const {newFriendRequests,setNewFriendRequests} = useContext(SocketContext);
+  const [friendNotifications,setFriendNotifications] = useState([])
 
   const navigate = useNavigate();
 
@@ -29,6 +30,10 @@ const NavBar = (props) => {
   useState(() => {
     props.setSelectedTab(sideBarSelectedTab);
   },[]);
+
+  useState(() => {
+    setFriendNotifications(friendRequests);
+  },[friendRequests]);
 
   const handleSelectedTab1 = () => {
     setSideBarSelectedTab('profile');
@@ -81,7 +86,7 @@ const NavBar = (props) => {
       <OverlayTrigger className="mt-4" placement="right" overlay={<Tooltip className={classes.tooltip}>Chats</Tooltip>}>
         <div onClick={handleSelectedTab4} className={`${classes['icon-wrapper']} mt-5 ${classes['notifiacation-container']}`}>
           <IoMdNotifications className={`${classes.icons} ${sideBarSelectedTab === "notifications" ? classes.active : ""}`}></IoMdNotifications>
-          {newFriendRequests.length > 0 && <span className={classes['notif-badge']}>{newFriendRequests.length}</span>}
+          {friendRequests.length > 0 && <span className={classes['notif-badge']}>{friendRequests.length}</span>}
         </div>
       </OverlayTrigger>
       </div>
@@ -112,7 +117,7 @@ const NavBar = (props) => {
       }
     >
       <div style={{cursor:"pointer"}} className={`${classes['icon-wrapper']} mb-4 d-flex flex-column justify-content-center align-items-center`}>
-      <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={userCtx.getUserImage()}></Image>
+      <Image roundedCircle style={{width:"30px",height:"30px",objectFit:"cover"}} src={getUserImage()}></Image>
         <Button className={`${classes['parameters-btn']} my-3`}><IoMdSettings className={`${classes.icons}`}></IoMdSettings></Button>
       </div>
     </OverlayTrigger>
